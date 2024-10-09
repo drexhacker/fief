@@ -12,10 +12,10 @@ RUN apt-get update && apt-get install -y build-essential redis libpq-dev \
     && mkdir -p /data/db
     
 # Copy your local Fief codebase
-COPY . /app/fief
+COPY . /app/fief/
 
 # Install your local Fief package
-RUN pip install -e /app/fief
+RUN pip install -e /app/fief/
     
 COPY supervisord.conf /etc/supervisord.conf
 
