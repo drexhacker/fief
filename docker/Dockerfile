@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y build-essential redis libpq-dev nodejs 
     && pip install --upgrade pip \
     && python --version \
     && apt-get autoremove -y build-essential \
-    && mkdir -p /data/db
+    && mkdir -p /data/db \
+    && mkdir -p /run/secrets
 
 # Copy the entire project directory
 COPY . /app/fief
