@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    image: cybroid-auth:latest
+    image: cybroid:latest
     command: fief run-server
     env_file:
       - .env
@@ -16,7 +16,7 @@ services:
       - "8000:8000"  # Expose Fief server port to the host
 
   fief-worker:
-    image: cybroid-auth:latest
+    image: cybroid:latest
     command: fief run-worker -p 1 -t 1
     env_file:
       - .env
