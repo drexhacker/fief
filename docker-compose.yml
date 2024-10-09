@@ -1,18 +1,44 @@
+version: "3"
+
 services:
-  db:
-    image: postgres:14-alpine
-    environment:
-      POSTGRES_USER: fief
-      POSTGRES_DB: fief
-      POSTGRES_PASSWORD: fiefpassword
-    volumes:
-      - postgres-data:/var/lib/postgresql/data/
+  fief-server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: cybroid-auth:latest
+    command: fief run-server
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
     ports:
-      - "5432:5432"
+      - "8000:8000"  # Expose Fief server port to the host
+
+  fief-worker:
+    image: cybroid-auth:latest
+    command: fief run-worker -p 1 -t 1
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_PASSWORD=fief
+      - POSTGRES_USER=fief
+      - POSTGRES_DB=fief
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
   redis:
     image: redis:alpine
-    ports:
-      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis-data:/data
 
 volumes:
+  redis-data:
   postgres-data:
