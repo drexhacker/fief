@@ -25,4 +25,4 @@ ENV SECRETS_DIR /run/secrets
 ENV PORT=8000
 EXPOSE ${PORT}
 
-CMD ["supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["docker/supervisord", "-c", "/etc/supervisord.conf"]
